@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Install or update oh-my-zsh
+if [[ -d ~/.oh-my-zsh ]]
+then
+    cd ~/.oh-my-zsh
+    #git reset --hard origin/master > /dev/null 2>&1
+    #git pull > /dev/null 2>&1
+    ##echo "Result $?"
+    cd -
+else
+    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
+    #echo "Result $?"
+fi
+
+# Check if locate database exists
+if [[ ! -e /var/db/locate.database ]]
+then
+    echo "Requesting user password to build locate database..."
+    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+fi
+
+# Install homebrew if required
+if [[ ! -e /usr/local/bin/brew ]]
+then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Install homebrew bottles
+brew_bottles=( aria2 bash-completion dos2unix fzf git ncdu openssl vim unrar wakeonlan watch wget )
+for i in "${brew_bottles[@]}"
+do
+    if [[ ! -e "/usr/local/Cellar/$i" ]]
+    then
+        echo "Installing $i homebrew bottle"
+        brew install $i
+    fi
+done
+
+# Install homebrew meld
+if [[ ! -e "/usr/local/Cellar/meld" ]]
+then
+    brew install Caskroom/cask/xquartz
+    brew install homebrew/x11/meld
+fi
+
+# Install python packages
+pip_packages=( fabric setuptool virtualenvwrapper )
+for i in "${pip_packages[@]}"
+do
+    pip list | grep -i $i > /dev/null
+    if [[ ! $? -eq 0 ]]
+    then
+        pip install $i
+    fi
+done
+
+# Configure git
+if [[ ! -e "~/.gitconfig" ]]
+then
+    cp .gitconfig ~/.gitconfig
+fi
+
+# Change shell to zsh
+if ! finger "$USER" | grep -q 'Shell.*zsh'
+then
+    chsh -s "$(which zsh)" "$USER"
+fi
