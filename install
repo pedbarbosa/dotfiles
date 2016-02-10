@@ -1,29 +1,61 @@
 #!/bin/bash
+verbose=false
+
+function usage {
+    echo "Enabled options are '-h' for this message and '-v' for for verbose mode"
+}
+
+function run () {
+    if $verbose
+    then
+        if [[ `echo $@ | cut -c1-4` != "echo" ]]
+        then
+            echo "Executing $@..."
+        fi
+        "$@"
+    else
+        "$@" > /dev/null 2>&1
+    fi
+}
+
+while getopts ":hv" OPTION
+do
+    case $OPTION in
+        h) usage; exit 0 ;;
+        v) verbose=true ;;
+    esac
+done
+shift $(( OPTIND - 1 ))
 
 # Install or update oh-my-zsh
 if [[ -d ~/.oh-my-zsh ]]
 then
-    cd ~/.oh-my-zsh
-    #git reset --hard origin/master > /dev/null 2>&1
-    #git pull > /dev/null 2>&1
-    ##echo "Result $?"
-    cd -
+    run echo "Installing oh-my-zsh..."
+    run cd ~/.oh-my-zsh
+    run git reset --hard origin/master
+    run git pull
+    run cd -
 else
-    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
-    #echo "Result $?"
+    run echo "Oh-my-zsh already installed, updating..."
+    run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 fi
 
 # Check if locate database exists
 if [[ ! -e /var/db/locate.database ]]
 then
-    echo "Requesting user password to build locate database..."
-    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+    run echo "Requesting user password to build locate database..."
+    run sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+else
+    run echo "Locate database has already been set up"
 fi
 
 # Install homebrew if required
 if [[ ! -e /usr/local/bin/brew ]]
 then
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    run echo "Installing homebrew..."
+    run ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    run echo "Homebrew has already been installed"
 fi
 
 # Install homebrew bottles
@@ -32,37 +64,46 @@ for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
     then
-        echo "Installing $i homebrew bottle"
-        brew install $i
+        run echo "Installing $i homebrew bottle..."
+        run brew install $i
     fi
 done
 
 # Install homebrew meld
 if [[ ! -e "/usr/local/Cellar/meld" ]]
 then
-    brew install Caskroom/cask/xquartz
-    brew install homebrew/x11/meld
+    run echo "Installing meld..."
+    run brew install Caskroom/cask/xquartz
+    run brew install homebrew/x11/meld
+else
+    run echo "Meld has already been installed"
 fi
 
 # Install python packages
 pip_packages=( fabric setuptool virtualenvwrapper )
+run echo "Obtaining installed pip packages..."
 for i in "${pip_packages[@]}"
 do
-    pip list | grep -i $i > /dev/null
+    run pip list | grep -i $i
     if [[ ! $? -eq 0 ]]
     then
-        pip install $i
+        run echo "Installing pip package $i..."
+        run pip install $i
     fi
 done
 
 # Configure git
 if [[ ! -e "~/.gitconfig" ]]
 then
+    run echo "Overwriting .gitconfig file..."
     cp .gitconfig ~/.gitconfig
 fi
 
 # Change shell to zsh
 if ! finger "$USER" | grep -q 'Shell.*zsh'
 then
-    chsh -s "$(which zsh)" "$USER"
+    run echo "Changing shell to zsh..."
+    run chsh -s "$(which zsh)" "$USER"
+else
+    run echo "Shell already set up to zsh"
 fi
