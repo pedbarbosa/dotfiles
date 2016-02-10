@@ -30,13 +30,13 @@ shift $(( OPTIND - 1 ))
 # Install or update oh-my-zsh
 if [[ -d ~/.oh-my-zsh ]]
 then
-    run echo "Installing oh-my-zsh..."
+    run echo "Oh-my-zsh already installed, updating..."
     run cd ~/.oh-my-zsh
     run git reset --hard origin/master
     run git pull
     run cd -
 else
-    run echo "Oh-my-zsh already installed, updating..."
+    run echo "Installing oh-my-zsh..."
     run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 fi
 
@@ -80,8 +80,8 @@ else
 fi
 
 # Install python packages
-pip_packages=( fabric setuptool virtualenvwrapper )
-run echo "Obtaining installed pip packages..."
+pip_packages=( fabric setuptool termcolor virtualenvwrapper )
+run echo "Checking required pip packages..."
 for i in "${pip_packages[@]}"
 do
     run pip list | grep -i $i
