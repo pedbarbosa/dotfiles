@@ -27,6 +27,10 @@ do
 done
 shift $(( OPTIND - 1 ))
 
+# Update installer submodules
+run echo "Updating installer submodules..."
+git submodule update --init --recursive --remote
+
 # Install or update oh-my-zsh
 if [[ -d ~/.oh-my-zsh ]]
 then
@@ -59,7 +63,7 @@ else
 fi
 
 # Install homebrew bottles
-brew_bottles=( aria2 bash-completion dos2unix fzf git ncdu openssl vim unrar wakeonlan watch wget )
+brew_bottles=( aria2 bash-completion dos2unix git ncdu openssl unrar wakeonlan watch wget )
 for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
@@ -68,6 +72,21 @@ do
         run brew install $i
     fi
 done
+
+# Syncronise dotfiles
+run rsync -r generic/ ~/
+
+# Configure VIm
+run echo "Installing/updating vimplug... "
+if [[ -f ~/.vim/autoload/plug.vim ]]; then
+    run vim -esu ~/.vimrc +PlugUpgrade +qa || true
+    run vim -esu ~/.vimrc +PlugClean! +qa || true
+    run vim -esu ~/.vimrc +PlugUpdate +qa || true
+else
+    mkdir -p ~/.vim/autoload
+    run curl -sSfLo ~/.vim/autoload/plug.vim \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 
 # Install homebrew meld
 if [[ ! -e "/usr/local/Cellar/meld" ]]
