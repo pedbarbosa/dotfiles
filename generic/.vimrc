@@ -1,22 +1,19 @@
 " Plugins
 filetype off " required
 call plug#begin('~/.vim/plugged')
-Plug 'davidhalter/jedi-vim', { 'for': 'python'}
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
+Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'Keithbsmiley/rspec.vim'
 Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
-Plug 'vimwiki/vimwiki'
-Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
 " Whitespace
@@ -41,7 +38,7 @@ set ruler          " show the cursor position all the time
 set modelines=1    " allow per-file vim configs
 set lazyredraw     " redraw when needed. speeds up macros
 set backspace=indent,eol,start     " more powerful backspacing
-set relativenumber " disable relative line numbers
+set relativenumber " enable relative line numbers
 filetype plugin indent on
 
 " Suffixes that get lower priority when doing tab completion for filenames.
@@ -113,20 +110,3 @@ let g:tagbar_type_puppet = {
 
 " Tab control keys
 nmap <F9> :TagbarToggle<CR>
-
-" YouCompleteMe
-let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
-
-" VimWiki
-let vimwiki_export_path = '/srv/http/vimwiki/'
-let g:vimwiki_list = [{ 'path': '$HOME/Dropbox/vimwiki',
-         \ 'path_html': vimwiki_export_path,
-         \ 'diary_index': 'index',
-         \ 'diary_rel_path': 'diary/',
-         \ 'template_path': vimwiki_export_path.'vimwiki-assets/',
-         \ 'template_default': 'default',
-         \ 'template_ext': '.html',
-         \ 'auto_export': 0,
-         \ 'nested_syntaxes': {
-         \ 'js':'javascript',
-         \ }}]

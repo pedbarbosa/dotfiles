@@ -27,22 +27,17 @@ do
 done
 shift $(( OPTIND - 1 ))
 
+# Check if Xcode is installed
+# (Maybe replace with check 'xcode-select -p', which should return 0 if installed, 2 if missing)
+if [[ ! -e /usr/bin/gcc ]]
+then
+    echo "Xcode isn't installed, please install from the App Store"
+    exit 1
+fi
+
 # Update installer submodules
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
-
-# Install or update oh-my-zsh
-if [[ -d ~/.oh-my-zsh ]]
-then
-    run echo "Oh-my-zsh already installed, updating..."
-    run cd ~/.oh-my-zsh
-    run git reset --hard origin/master
-    run git pull
-    run cd -
-else
-    run echo "Installing oh-my-zsh..."
-    run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-fi
 
 # Check if locate database exists
 if [[ ! -e /var/db/locate.database ]]
@@ -63,7 +58,7 @@ else
 fi
 
 # Install homebrew bottles
-brew_bottles=( aria2 bash-completion dos2unix git ncdu openssl unrar wakeonlan watch wget )
+brew_bottles=( aria2 bash-completion cmake dos2unix fzf git ncdu openssl unrar vim wakeonlan watch wget )
 for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
@@ -72,21 +67,6 @@ do
         run brew install $i
     fi
 done
-
-# Syncronise dotfiles
-run rsync -r generic/ ~/
-
-# Configure VIm
-run echo "Installing/updating vimplug... "
-if [[ -f ~/.vim/autoload/plug.vim ]]; then
-    run vim -esu ~/.vimrc +PlugUpgrade +qa || true
-    run vim -esu ~/.vimrc +PlugClean! +qa || true
-    run vim -esu ~/.vimrc +PlugUpdate +qa || true
-else
-    mkdir -p ~/.vim/autoload
-    run curl -sSfLo ~/.vim/autoload/plug.vim \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
 
 # Install homebrew meld
 if [[ ! -e "/usr/local/Cellar/meld" ]]
@@ -116,6 +96,47 @@ if [[ ! -e "~/.gitconfig" ]]
 then
     run echo "Overwriting .gitconfig file..."
     cp .gitconfig ~/.gitconfig
+fi
+
+# Install Powerline fonts
+run echo "Installing powerline fonts... "
+run powerline-fonts/install.sh
+
+# Syncronise dotfiles
+run rsync -r generic/ ~/
+
+# Configure VIm
+run echo "Installing/updating vimplug... "
+if [[ -f ~/.vim/autoload/plug.vim ]]; then
+    run vim -esu ~/.vimrc +PlugUpgrade +qa || true
+    run vim -esu ~/.vimrc +PlugClean! +qa || true
+    run vim -esu ~/.vimrc +PlugUpdate +qa || true
+else
+    mkdir -p ~/.vim/autoload
+    run curl -sSfLo ~/.vim/autoload/plug.vim \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# Check if Mac VIm binary exists
+if [[ -e /usr/bin/vim ]]
+then
+    echo "NOTE: /usr/bin/vim exists, which prevents brew'd vim from running. Please execute:
+    sudo mv /usr/bin/vim /usr/bin/vim73"
+fi
+
+
+
+# Install or update oh-my-zsh
+if [[ -d ~/.oh-my-zsh ]]
+then
+    run echo "Oh-my-zsh already installed, updating..."
+    run cd ~/.oh-my-zsh
+    run git reset --hard origin/master
+    run git pull
+    run cd -
+else
+    run echo "Installing oh-my-zsh..."
+    run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 fi
 
 # Change shell to zsh
