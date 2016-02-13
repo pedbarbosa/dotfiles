@@ -91,19 +91,19 @@ do
     fi
 done
 
-# Configure git
-if [[ ! -e "~/.gitconfig" ]]
-then
-    run echo "Overwriting .gitconfig file..."
-    cp .gitconfig ~/.gitconfig
-fi
-
 # Install Powerline fonts
-run echo "Installing powerline fonts... "
+run echo "Installing powerline fonts..."
 run powerline-fonts/install.sh
 
 # Syncronise dotfiles
+run echo "Synchronising profile dotfiles..."
 run rsync -r generic/ ~/
+if [[ -e ~/Google\ Drive/Scripts/.zshrc_aliases ]]
+then
+    run cp ~/Google\ Drive/Scripts/.zshrc_aliases ~/
+else
+	echo "Couldn't find .zshrc_aliases, please add manually."
+fi
 
 # Configure VIm
 run echo "Installing/updating vimplug... "
@@ -116,15 +116,6 @@ else
     run curl -sSfLo ~/.vim/autoload/plug.vim \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
-
-# Check if Mac VIm binary exists
-if [[ -e /usr/bin/vim ]]
-then
-    echo "NOTE: /usr/bin/vim exists, which prevents brew'd vim from running. Please execute:
-    sudo mv /usr/bin/vim /usr/bin/vim73"
-fi
-
-
 
 # Install or update oh-my-zsh
 if [[ -d ~/.oh-my-zsh ]]
