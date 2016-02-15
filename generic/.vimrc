@@ -73,7 +73,7 @@ set hlsearch   " highlight searches
 set ignorecase " Do case insensitive matching
 set smartcase  " Do smart case matching
 
-" Folding {{{
+" Folding
 set foldenable        " enable folding
 set foldlevelstart=10 " open most folds by default
 set foldnestmax=10    " 10 nexted folds max
