@@ -42,7 +42,7 @@ git submodule update --init --recursive --remote
 # Check if locate database exists
 if [[ ! -e /var/db/locate.database ]]
 then
-    run echo "Requesting user password to build locate database..."
+    echo "Requesting user password to build locate database..."
     run sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
 else
     run echo "Locate database has already been set up"
@@ -95,7 +95,7 @@ done
 run echo "Installing powerline fonts..."
 run powerline-fonts/install.sh
 
-# Syncronise dotfiles
+# Syncronise profile files
 run echo "Synchronising profile dotfiles..."
 run rsync -r generic/ ~/
 if [[ -e ~/Google\ Drive/Scripts/.zshrc_aliases ]]
@@ -103,6 +103,12 @@ then
     run cp ~/Google\ Drive/Scripts/.zshrc_aliases ~/
 else
 	echo "Couldn't find .zshrc_aliases, please add manually."
+fi
+
+# Checking if applications are installed
+if [[ ! -d /Applications/iTerm.app ]]
+then
+    echo "iTerm isn't installed, please install iTerm 2."
 fi
 
 # Configure VIm
