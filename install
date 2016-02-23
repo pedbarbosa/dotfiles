@@ -47,8 +47,8 @@ do
     run pip list | grep -i $i
     if [[ $? -ne 0 ]]
     then
-        run echo "Installing pip package $i..."
-        run pip install $i
+        run echo "Installing pip package $i, password may be requested..."
+        run sudo pip install $i
     fi
 done
 
