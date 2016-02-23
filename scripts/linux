@@ -5,4 +5,9 @@
 source scripts/functions
 
 # Install required packages
-run sudo pacman -S python-pip sudo
+if [[ $UID == 0 ]]; then
+    run pacman -S python-pip sudo
+else
+    run sudo pacman -S python-pip sudo
+fi
+
