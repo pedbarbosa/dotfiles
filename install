@@ -4,8 +4,7 @@ verbose=false
 #Include functions
 source scripts/functions
 
-while getopts ":hv" OPTION
-do
+while getopts ":hv" OPTION; do
     case $OPTION in
         h) usage; exit 0 ;;
         v) verbose=true ;;
@@ -42,8 +41,7 @@ git submodule update --init --recursive --remote
 # TODO: Need to check if pip is installed
 pip_packages=( fabric setuptool termcolor virtualenvwrapper )
 run echo "Checking required pip packages..."
-for i in "${pip_packages[@]}"
-do
+for i in "${pip_packages[@]}"; do
     run pip list | grep -i $i
     if [[ $? -ne 0 ]]
     then
@@ -63,7 +61,7 @@ if [[ -e ~/Google\ Drive/Scripts/.zshrc_aliases ]]
 then
     run cp ~/Google\ Drive/Scripts/.zshrc_aliases ~/
 else
-	echo "Couldn't find .zshrc_aliases, please add manually."
+    echo "Couldn't find .zshrc_aliases, please add manually."
 fi
 
 # Configure VIm
@@ -79,8 +77,7 @@ else
 fi
 
 # Install or update oh-my-zsh
-if [[ -d ~/.oh-my-zsh ]]
-then
+if [[ -d ~/.oh-my-zsh ]]; then
     run echo "Oh-my-zsh already installed, updating..."
     run cd ~/.oh-my-zsh
     run git reset --hard origin/master
@@ -93,10 +90,7 @@ fi
 
 # Change shell to zsh
 if [[ $SHELL != "/bin/zsh" ]]; then 
-# TODO: Arch requires the netkit-bsd-finger package installed
-#if ! finger "$USER" | grep -q 'Shell.*zsh'
-#then
-    if [[ -e /bin/zsh ]]; then
+    if [[ ! -e /bin/zsh ]]; then
         echo "Couldn't find zsh, please install..."
     else
         run echo "Changing shell to zsh..."
