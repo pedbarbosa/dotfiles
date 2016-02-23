@@ -15,14 +15,14 @@ shift $(( OPTIND - 1 ))
 
 # OS detection
 UNAME=$(uname -a | sed -E 's/ .*//')
-if [[ $UNAME -eq 'Darwin' ]]; then
+if [[ $UNAME == 'Darwin' ]]; then
     run echo "Machine type is Mac..."
     sh scripts/mac
     if [[ $? -ne 0 ]]; then
         echo "Error while executing Mac installer, aborting..."
         exit 1
     fi
-elif [[ $UNAME -eq 'Linux' ]]; then
+elif [[ $UNAME == 'Linux' ]]; then
     run echo "Machine type is Linux..."
     sh scripts/linux
     if [[ $? -ne 0 ]]; then
