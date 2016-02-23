@@ -7,8 +7,8 @@ source scripts/functions
 # Install required packages
 PACMAN_PKG="python-pip sudo vim"
 if [[ $UID == 0 ]]; then
-    run pacman -S --noconfirm $PACMAN_PKG
+    run pacman -S --noconfirm --needed $PACMAN_PKG
 else
-    run sudo pacman -S --noconfirm $PACMAN_PKG
+    run sudo pacman -S --noconfirm --needed $PACMAN_PKG
 fi
 
