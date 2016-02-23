@@ -5,9 +5,10 @@
 source scripts/functions
 
 # Install required packages
+$PACMAN_PKG="python-pip sudo"
 if [[ $UID == 0 ]]; then
-    run pacman -S python-pip sudo
+    run pacman -S --noconfirm $PACMAN_PKG
 else
-    run sudo pacman -S python-pip sudo
+    run sudo pacman -S --noconfirm $PACMAN_PKG
 fi
 
