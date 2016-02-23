@@ -92,10 +92,16 @@ else
 fi
 
 # Change shell to zsh
-if ! finger "$USER" | grep -q 'Shell.*zsh'
-then
-    run echo "Changing shell to zsh..."
-    run chsh -s "$(which zsh)" "$USER"
+if [[ $SHELL != "/bin/zsh" ]]; then 
+# TODO: Arch requires the netkit-bsd-finger package installed
+#if ! finger "$USER" | grep -q 'Shell.*zsh'
+#then
+    if [[ -e /bin/zsh ]]; then
+        echo "Couldn't find zsh, please install..."
+    else
+        run echo "Changing shell to zsh..."
+        run chsh -s "$(which zsh)" "$USER"
+    fi
 else
     run echo "Shell already set up to zsh"
 fi
