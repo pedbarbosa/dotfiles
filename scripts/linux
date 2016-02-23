@@ -1,6 +1,8 @@
 #!/bin/bash
+# TODO: This script currently only works in Arch Linux, need to generalise it
 
 # Include functions
 source scripts/functions
 
-# Intentionally left blank for now...
+# Install required packages
+run sudo pacman -S python-pip sudo
