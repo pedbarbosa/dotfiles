@@ -5,7 +5,7 @@
 source scripts/functions
 
 # Install required packages
-PACMAN_PKG="gcc python-pip sudo vim"
+PACMAN_PKG="gcc python-pip rsync sudo vim"
 if [[ $UID == 0 ]]; then
     run pacman -S --noconfirm --needed $PACMAN_PKG
 else

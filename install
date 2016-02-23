@@ -94,6 +94,10 @@ if [[ $SHELL != "/bin/zsh" ]]; then
         echo "Couldn't find zsh, please install..."
     else
         run echo "Changing shell to zsh..."
+        if [[ $UID == 0 ]]; then
+            USER="root"
+        fi
+        PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         run chsh -s "$(which zsh)" "$USER"
     fi
 else
