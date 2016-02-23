@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Include functions
+source scripts/functions
+
+# Intentionally left blank for now...

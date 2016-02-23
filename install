@@ -1,22 +1,8 @@
 #!/bin/bash
 verbose=false
 
-function usage {
-    echo "Enabled options are '-h' for this message and '-v' for for verbose mode"
-}
-
-function run () {
-    if $verbose
-    then
-        if [[ `echo $@ | cut -c1-4` != "echo" ]]
-        then
-            echo "Executing $@..."
-        fi
-        "$@"
-    else
-        "$@" > /dev/null 2>&1
-    fi
-}
+#Include functions
+source scripts/functions
 
 while getopts ":hv" OPTION
 do
@@ -27,11 +13,24 @@ do
 done
 shift $(( OPTIND - 1 ))
 
-# Check if Xcode is installed
-# (Maybe replace with check 'xcode-select -p', which should return 0 if installed, 2 if missing)
-if [[ ! -e /usr/bin/gcc ]]
-then
-    echo "Xcode isn't installed, please install from the App Store"
+# OS detection
+UNAME=$(uname -a | sed -E 's/ .*//')
+if [[ $UNAME -eq 'Darwin' ]]; then
+    run echo "Machine type is Mac..."
+    sh scripts/mac
+    if [[ $? -ne 0 ]]; then
+        echo "Error while executing Mac installer, aborting..."
+        exit 1
+    fi
+elif [[ $UNAME -eq 'Linux' ]]; then
+    run echo "Machine type is Linux..."
+    sh scripts/linux
+    if [[ $? -ne 0 ]]; then
+        echo "Error while executing Mac installer, aborting..."
+        exit 1
+    fi
+else
+    echo "Could not detect Operating System. Aborting."
     exit 1
 fi
 
@@ -39,52 +38,14 @@ fi
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
 
-# Check if locate database exists
-if [[ ! -e /var/db/locate.database ]]
-then
-    echo "Requesting user password to build locate database..."
-    run sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-else
-    run echo "Locate database has already been set up"
-fi
-
-# Install homebrew if required
-if [[ ! -e /usr/local/bin/brew ]]
-then
-    run echo "Installing homebrew..."
-    run ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-else
-    run echo "Homebrew has already been installed"
-fi
-
-# Install homebrew bottles
-brew_bottles=( aria2 awscli bash-completion cmake ctags docker dos2unix fzf git ncdu openssl pv unrar vim wakeonlan watch wget )
-for i in "${brew_bottles[@]}"
-do
-    if [[ ! -e "/usr/local/Cellar/$i" ]]
-    then
-        run echo "Installing $i homebrew bottle..."
-        run brew install $i
-    fi
-done
-
-# Install homebrew meld
-if [[ ! -e "/usr/local/Cellar/meld" ]]
-then
-    run echo "Installing meld..."
-    run brew install Caskroom/cask/xquartz
-    run brew install homebrew/x11/meld
-else
-    run echo "Meld has already been installed"
-fi
-
 # Install python packages
+# TODO: Need to check if pip is installed
 pip_packages=( fabric setuptool termcolor virtualenvwrapper )
 run echo "Checking required pip packages..."
 for i in "${pip_packages[@]}"
 do
     run pip list | grep -i $i
-    if [[ ! $? -eq 0 ]]
+    if [[ $? -ne 0 ]]
     then
         run echo "Installing pip package $i..."
         run pip install $i
@@ -103,12 +64,6 @@ then
     run cp ~/Google\ Drive/Scripts/.zshrc_aliases ~/
 else
 	echo "Couldn't find .zshrc_aliases, please add manually."
-fi
-
-# Checking if applications are installed
-if [[ ! -d /Applications/iTerm.app ]]
-then
-    echo "iTerm isn't installed, please install iTerm 2."
 fi
 
 # Configure VIm

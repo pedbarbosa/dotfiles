@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Include functions
+source scripts/functions
+
+# Check if Xcode is installed
+# (Maybe replace with check 'xcode-select -p', which should return 0 if installed, 2 if missing)
+if [[ ! -e /usr/bin/gcc ]]
+then
+    echo "Xcode isn't installed, please install from the App Store"
+    exit 1
+fi
+
+# Check if locate database exists
+if [[ ! -e /var/db/locate.database ]]
+then
+    echo "Requesting user password to build locate database..."
+    run sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+else
+    run echo "Locate database has already been set up"
+fi
+
+# Check if homebrew is already installed
+if [[ ! -e /usr/local/bin/brew ]]
+then
+    run echo "Installing homebrew..."
+    run ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    run echo "Homebrew has already been installed"
+fi
+
+# Install homebrew bottles
+brew_bottles=( aria2 awscli bash-completion cmake ctags docker dos2unix fzf git ncdu openssl pv unrar vim wakeonlan watch wget )
+for i in "${brew_bottles[@]}"
+do
+    if [[ ! -e "/usr/local/Cellar/$i" ]]
+    then
+        run echo "Installing $i homebrew bottle..."
+        run brew install $i
+    fi
+done
+
+# Install homebrew meld
+if [[ ! -e "/usr/local/Cellar/meld" ]]
+then
+    run echo "Installing meld..."
+    run brew install Caskroom/cask/xquartz
+    run brew install homebrew/x11/meld
+else
+    run echo "Meld has already been installed"
+fi
+
+# Install Powerline fonts
+run echo "Installing powerline fonts..."
+run powerline-fonts/install.sh
+
+# Checking if applications are installed
+if [[ ! -d /Applications/iTerm.app ]]
+then
+    echo "Couldn't find iTerm 2, please install."
+fi
