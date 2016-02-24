@@ -1,0 +1,72 @@
+#!/bin/bash
+verbose=false
+
+# Update installer submodules
+run echo "Updating installer submodules..."
+git submodule update --init --recursive --remote
+
+# Install python packages
+# TODO: Need to check if pip is installed
+pip_packages=( fabric setuptool termcolor virtualenvwrapper )
+run echo "Checking required pip packages..."
+for i in "${pip_packages[@]}"; do
+    run pip list | grep -i $i
+    if [[ $? -ne 0 ]]
+    then
+        run echo "Installing pip package $i, password may be requested..."
+        run sudo pip install $i
+    fi
+done
+
+# Install Powerline fonts
+run echo "Installing powerline fonts..."
+run powerline-fonts/install.sh
+
+# Syncronise profile files
+run echo "Synchronising profile dotfiles..."
+run rsync -r generic/ ~/
+if [[ -e ~/Google\ Drive/Scripts/.zshrc_aliases ]]
+then
+    run cp ~/Google\ Drive/Scripts/.zshrc_aliases ~/
+else
+    echo "Couldn't find .zshrc_aliases, please add manually."
+fi
+
+# Configure VIm
+run echo "Installing/updating vimplug... "
+if [[ -f ~/.vim/autoload/plug.vim ]]; then
+    run vim -esu ~/.vimrc +PlugUpgrade +qa || true
+    run vim -esu ~/.vimrc +PlugClean! +qa || true
+    run vim -esu ~/.vimrc +PlugUpdate +qa || true
+else
+    mkdir -p ~/.vim/autoload
+    run curl -sSfLo ~/.vim/autoload/plug.vim \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# Install or update oh-my-zsh
+if [[ -d ~/.oh-my-zsh ]]; then
+    run echo "Oh-my-zsh already installed, updating..."
+    run cd ~/.oh-my-zsh
+    run git reset --hard origin/master
+    run git pull
+    run cd -
+else
+    run echo "Installing oh-my-zsh..."
+    run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+fi
+
+# Change shell to zsh
+if [[ $SHELL != $ZSH_PATH ]]; then 
+    if [[ ! -e $ZSH_PATH ]]; then
+        echo "Couldn't find zsh, please install..."
+    else
+        run echo "Changing shell to zsh..."
+        if [[ $UID == 0 ]]; then
+            USER="root"
+        fi
+        run chsh -s "$ZSH_PATH" "$USER"
+    fi
+else
+    run echo "Shell already set up to zsh"
+fi
