@@ -5,10 +5,14 @@
 source scripts/functions
 
 # Install required packages
-PACMAN_PKG="fzf gcc python-pip rsync sudo vim"
+PACMAN_PKG="fzf gcc jshon python-pip rsync sudo vim"
 if [[ $UID == 0 ]]; then
     run pacman -S --noconfirm --needed $PACMAN_PKG
 else
     run sudo pacman -S --noconfirm --needed $PACMAN_PKG
 fi
+
+# Install apacman
+run git clone https://github.com/oshazard/apacman git/apacman/
+run git/apacman/apacman -S --noconfirm apacman
 
