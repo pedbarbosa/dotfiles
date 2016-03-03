@@ -1,12 +1,20 @@
 #!/bin/bash
-verbose=false
+
+# Include functions
+source scripts/functions
 
 # Update installer submodules
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
 
-# Install python packages
-# TODO: Need to check if pip is installed
+# Check if pip needs to be installed / upgraded
+pip install --upgrade pip
+if [[ $? -ne 0 ]]; then
+    echo "Error while executing Mac installer, aborting..."
+    exit 1
+fi
+
+# Install required python packages
 pip_packages=( fabric setuptool termcolor virtualenvwrapper )
 run echo "Checking required pip packages..."
 for i in "${pip_packages[@]}"; do
@@ -54,19 +62,4 @@ if [[ -d ~/.oh-my-zsh ]]; then
 else
     run echo "Installing oh-my-zsh..."
     run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-fi
-
-# Change shell to zsh
-if [[ $SHELL != $ZSH_PATH ]]; then 
-    if [[ ! -e $ZSH_PATH ]]; then
-        echo "Couldn't find zsh, please install..."
-    else
-        run echo "Changing shell to zsh..."
-        if [[ $UID == 0 ]]; then
-            USER="root"
-        fi
-        run chsh -s "$ZSH_PATH" "$USER"
-    fi
-else
-    run echo "Shell already set up to zsh"
 fi

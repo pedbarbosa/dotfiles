@@ -36,4 +36,26 @@ else
 fi
 
 # Start OS agnostic configuration
+run echo "Executing OS agnostic configuration"
 sh scripts/agnostic
+
+# Change shell to zsh
+if [[ $SHELL != $ZSH_PATH ]]; then
+    if [[ ! -e $ZSH_PATH ]]; then
+        echo "Couldn't find zsh at $ZSH_PATH, please install..."
+    else
+        run grep $ZSH_PATH /etc/shells
+        if [[ $? -ne 0 ]]
+        then
+            run echo "Adding $ZSH_PATH to /etc/shells, password may be requested..."
+            echo $ZSH_PATH | sudo tee -a /etc/shells
+        fi
+        run echo "Changing shell to zsh..."
+        if [[ $UID == 0 ]]; then
+            USER="root"
+        fi
+        run chsh -s "$ZSH_PATH" "$USER"
+    fi
+else
+    run echo "Shell already set up to zsh"
+fi

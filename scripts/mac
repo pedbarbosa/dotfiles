@@ -50,10 +50,6 @@ else
     run echo "Meld has already been installed"
 fi
 
-# Install Powerline fonts
-run echo "Installing powerline fonts..."
-run powerline-fonts/install.sh
-
 # Checking if applications are installed
 if [[ ! -d /Applications/iTerm.app ]]
 then
