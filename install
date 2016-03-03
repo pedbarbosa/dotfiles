@@ -21,7 +21,7 @@ if [[ $UNAME == 'Darwin' ]]; then
         echo "Error while executing Mac installer, aborting..."
         exit 1
     fi
-    ZSH_PATH="/bin/zsh"
+    ZSH_PATH="/usr/local/bin/zsh"
 elif [[ $UNAME == 'Linux' ]]; then
     run echo "Machine type is Linux..."
     sh scripts/linux
