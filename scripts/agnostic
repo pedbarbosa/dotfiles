@@ -3,6 +3,8 @@
 # Include functions
 source scripts/functions
 
+# TODO: Add fzf to ~/.fzf from https://github.com/junegunn/fzf.git
+
 # Update installer submodules
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
