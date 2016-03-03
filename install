@@ -29,7 +29,7 @@ elif [[ $UNAME == 'Linux' ]]; then
         echo "Error while executing Mac installer, aborting..."
         exit 1
     fi
-    ZSH_PATH="/usr/bin/zsh"
+    ZSH_PATH="/bin/zsh"
 else
     echo "Could not detect Operating System. Aborting."
     exit 1
