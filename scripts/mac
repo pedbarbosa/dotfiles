@@ -44,6 +44,7 @@ done
 if [[ ! -e "/usr/local/Cellar/meld" ]]
 then
     run echo "Installing meld..."
+    run brew install Caskroom/cask/tcl
     run brew install Caskroom/cask/xquartz
     run brew install homebrew/x11/meld
 else

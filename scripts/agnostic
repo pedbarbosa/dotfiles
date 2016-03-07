@@ -3,8 +3,6 @@
 # Include functions
 source scripts/functions
 
-# TODO: Add fzf to ~/.fzf from https://github.com/junegunn/fzf.git
-
 # Update installer submodules
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
@@ -64,4 +62,17 @@ if [[ -d ~/.oh-my-zsh ]]; then
 else
     run echo "Installing oh-my-zsh..."
     run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+fi
+
+# Install or update fzf 
+if [[ -d ~/.fzf ]]; then
+    run echo "fzf already installed, updating..."
+    run cd ~/.fzf
+    run git reset --hard origin/master
+    run git pull
+    run cd -
+else
+    run echo "Installing fzf..."
+    run git clone https://github.com/junegunn/fzf.git ~/.fzf
+    run ~/.fzf/install --all
 fi
