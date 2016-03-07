@@ -8,7 +8,8 @@ run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote
 
 # Check if pip needs to be installed / upgraded
-pip install --upgrade pip
+run echo "Checking if pip needs to be installed or upgraded, password may be requested..."
+run sudo pip install --upgrade pip
 if [[ $? -ne 0 ]]; then
     echo "Error while executing Mac installer, aborting..."
     exit 1
@@ -74,5 +75,5 @@ if [[ -d ~/.fzf ]]; then
 else
     run echo "Installing fzf..."
     run git clone https://github.com/junegunn/fzf.git ~/.fzf
-    run ~/.fzf/install --all
 fi
+run ~/.fzf/install --all
