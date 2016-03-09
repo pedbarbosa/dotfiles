@@ -14,6 +14,7 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
 
 " Whitespace
