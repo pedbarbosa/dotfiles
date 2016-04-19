@@ -67,7 +67,9 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 # Aliases
-source ~/.zshrc_aliases
+if [[ -f ~/.zshrc_aliases ]]; then
+    source ~/.zshrc_aliases
+fi
 
 # Prompt update
 PS1='%{$fg_no_bold[green]%}%n@%m %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} % ${ret_status}%{$fg_bold[green]%}%p %{$reset_color%}'
@@ -99,7 +101,9 @@ bindkey -s "^[Oo" "/"
 source ~/.fzf.zsh
 
 # Enable AWS commands
-source /usr/local/share/zsh/site-functions/_aws
+if [[ -f /usr/local/share/zsh/site-functions/_aws ]]; then
+    source /usr/local/share/zsh/site-functions/_aws
+fi
 
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
