@@ -46,7 +46,7 @@ then
     run echo "Installing meld..."
     run brew install Caskroom/cask/tcl
     run brew install Caskroom/cask/xquartz
-    run brew install homebrew/x11/meld
+    run brew install homebrew/gui/meld
 else
     run echo "Meld has already been installed"
 fi
