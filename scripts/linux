@@ -6,7 +6,7 @@ source scripts/functions
 
 if [[ -e /etc/redhat-release ]]; then
     DISTRO="redhat"
-    PACKAGES="gcc python-dev python-pip rsync sudo vim zsh"
+    PACKAGES="gcc python-devel python-pip rsync sudo vim zsh"
     RUN_COMMAND="yum install -y "
 elif [[ -e /etc/arch-release ]]; then
     DISTRO="arch"
