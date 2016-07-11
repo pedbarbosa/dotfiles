@@ -1,5 +1,5 @@
 #!/bin/bash
-# TODO: Add more distros. Currently only executes on Arch or Centos/RHEL
+# Linux script is currently detecting Centos/RHEL, Arch and Debian/Ubuntu
 
 # Include functions
 source scripts/functions
