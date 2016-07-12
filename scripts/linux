@@ -11,9 +11,8 @@ elif [[ -e /etc/arch-release ]]; then
     RUN_COMMAND="pacman -S --noconfirm --needed "
 elif [[ -e /etc/debian_version ]]; then
     DISTRO="debian"
-    PACKAGES="vim"
-    RUN_COMMAND="apt-get install -y "
-    exit 1
+    PACKAGES="gcc python-pip rsync vim zsh"
+    RUN_COMMAND="apt-get update && sudo apt-get install -y "
 else
     echo "ERROR: Could not determine Linux distribution, exiting..."
     exit 1
