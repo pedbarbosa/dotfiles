@@ -1,9 +1,6 @@
 #!/bin/bash
 # Linux script is currently detecting Centos/RHEL, Arch and Debian/Ubuntu
 
-# Include functions
-source scripts/functions
-
 if [[ -e /etc/redhat-release ]]; then
     DISTRO="redhat"
     PACKAGES="gcc python-devel python-pip rsync sudo vim zsh"

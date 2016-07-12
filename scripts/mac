@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Include functions
-source scripts/functions
-
 # Check if Xcode is installed
 # (Maybe replace with check 'xcode-select -p', which should return 0 if installed, 2 if missing)
 if [[ ! -e /usr/bin/gcc ]]
