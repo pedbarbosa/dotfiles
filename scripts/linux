@@ -1,6 +1,13 @@
 #!/bin/bash
 # Linux script is currently detecting Centos/RHEL, Arch and Debian/Ubuntu
 
+# Check if elevation is required
+if [[ $UID != 0 ]]; then
+    ELEVATE="sudo "
+else
+    ELEVATE=""
+fi
+
 if [[ -e /etc/redhat-release ]]; then
     DISTRO="redhat"
     PACKAGES="gcc python-devel python-pip rsync sudo vim zsh"
@@ -12,17 +19,11 @@ elif [[ -e /etc/arch-release ]]; then
 elif [[ -e /etc/debian_version ]]; then
     DISTRO="debian"
     PACKAGES="gcc python-pip rsync vim zsh"
-    RUN_COMMAND="apt-get update && sudo apt-get install -y "
+    run $ELEVATE apt-get update
+    RUN_COMMAND="apt-get install -y "
 else
     echo "ERROR: Could not determine Linux distribution, exiting..."
     exit 1
-fi
-
-# Check if elevation is required
-if [[ $UID != 0 ]]; then
-    ELEVATE="sudo "
-else
-    ELEVATE=""
 fi
 
 # Install required packages
