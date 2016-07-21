@@ -27,7 +27,7 @@ else
 fi
 
 # Install homebrew bottles
-brew_bottles=( aria2 awscli bash-completion cmake ctags docker dos2unix fzf git gpg libxml2 ncdu nmap openssl pv unrar vim wakeonlan watch wget zsh )
+brew_bottles=( aria2 awscli bash-completion cmake ctags docker dos2unix fzf git gpg libxml2 ncdu nmap openssl pv syncthing unrar vim wakeonlan watch wget zsh )
 for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
