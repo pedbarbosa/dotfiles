@@ -16,7 +16,7 @@ shift $(( OPTIND - 1 ))
 UNAME=$(uname -a | sed -E 's/ .*//')
 if [[ $UNAME == 'Darwin' ]]; then
     run echo "Machine type is Mac..."
-    sh scripts/mac
+    source scripts/mac
     if [[ $? -ne 0 ]]; then
         echo "Error while executing Mac installer, aborting..."
         exit 1
@@ -24,9 +24,9 @@ if [[ $UNAME == 'Darwin' ]]; then
     ZSH_PATH="/usr/local/bin/zsh"
 elif [[ $UNAME == 'Linux' ]]; then
     run echo "Machine type is Linux..."
-    sh scripts/linux
+    source scripts/linux
     if [[ $? -ne 0 ]]; then
-        echo "Error while executing Mac installer, aborting..."
+        echo "Error while executing Linux installer, aborting..."
         exit 1
     fi
     ZSH_PATH="/bin/zsh"
@@ -37,7 +37,7 @@ fi
 
 # Start OS agnostic configuration
 run echo "Executing OS agnostic configuration"
-sh scripts/agnostic
+source scripts/agnostic
 
 # Change shell to zsh
 if [[ $SHELL != $ZSH_PATH ]]; then

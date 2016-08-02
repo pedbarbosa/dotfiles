@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Include functions
-source scripts/functions
-
 # Update installer submodules
 run echo "Updating installer submodules..."
 git submodule update --init --recursive --remote

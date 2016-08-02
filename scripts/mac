@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Include functions
-source scripts/functions
-
 # Check if Xcode is installed
 # (Maybe replace with check 'xcode-select -p', which should return 0 if installed, 2 if missing)
 if [[ ! -e /usr/bin/gcc ]]
@@ -30,7 +27,7 @@ else
 fi
 
 # Install homebrew bottles
-brew_bottles=( aria2 awscli bash-completion cmake ctags docker dos2unix fzf git gpg libxml2 ncdu nmap openssl pv rsync unrar vim wakeonlan watch wget zsh )
+brew_bottles=( aria2 awscli bash-completion cmake ctags dos2unix fzf git gnupg libxml2 ncdu nmap openssl pv syncthing unrar vim wakeonlan watch wget zsh )
 for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
