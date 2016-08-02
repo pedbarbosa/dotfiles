@@ -54,7 +54,7 @@ if [[ $SHELL != $ZSH_PATH ]]; then
         if [[ $UID == 0 ]]; then
             USER="root"
         fi
-        run chsh -s "$ZSH_PATH" "$USER"
+        run sudo chsh -s "$ZSH_PATH" "$USER"
     fi
 else
     run echo "Shell already set up to zsh"
