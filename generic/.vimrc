@@ -1,14 +1,14 @@
 " Plugins
 filetype off " required
 call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fugitive'
+Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
-Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'airblade/vim-rooter'
@@ -55,6 +55,7 @@ endif
 syntax on
 " Recognize exact file names as file types
 au BufRead,BufNewFile {Gemfile,Vagrantfile,Berksfile} set ft=ruby
+au BufRead,BufNewFile *.sls set ft=yaml
 let g:syntastic_enable_perl_checker = 1
 let g:syntastic_c_check_header = 1
 let g:syntastic_cpp_check_header = 1
