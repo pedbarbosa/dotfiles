@@ -114,3 +114,6 @@ bindkey -s "^[Oo" "/"
 
 # Turn on fuzzy matching
 source ~/.fzf.zsh
+
+# Initialise zsh completion
+compinit
