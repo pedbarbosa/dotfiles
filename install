@@ -59,3 +59,14 @@ if [[ $SHELL != $ZSH_PATH ]]; then
 else
     run echo "Shell already set up to zsh"
 fi
+
+# Update .zshrc according to environment
+# TODO: Need to rearrange this function's location
+if [[ $UNAME == 'Darwin' ]]; then
+    sed -i -e "s/^plugins=.*/plugins=\(aws brew docker docker-compose gitfast knife osx pip sudo\)/g" ~/.zshrc
+elif [[ -e /etc/arch-release ]]; then
+    sed -i -e "s/^plugins=.*/plugins=\(archlinux docker docker-compose gitfast pip sudo\)/g" ~/.zshrc
+else
+    sed -i -e "s/^plugins=.*/plugins=\(gitfast pip sudo\)/g" ~/.zshrc
+fi
+
