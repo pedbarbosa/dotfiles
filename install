@@ -22,6 +22,8 @@ if [[ $UNAME == 'Darwin' ]]; then
         exit 1
     fi
     ZSH_PATH="/usr/local/bin/zsh"
+    # Fix for font cache reset failure due to fontconfig error
+    FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
 elif [[ $UNAME == 'Linux' ]]; then
     run echo "Machine type is Linux..."
     source scripts/linux
