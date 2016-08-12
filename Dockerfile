@@ -1,3 +1,7 @@
+# Use this command to create an Ubuntu test container:
+#
+#   docker build -t ubuntu:dotfiles .
+
 FROM ubuntu:latest
 MAINTAINER Pedro Barbosa <pedbarbosa@users.noreply.github.com>
 
