@@ -49,27 +49,25 @@ run vim -esu ~/.vimrc +PlugUpgrade +qa || true
 run vim -esu ~/.vimrc +PlugClean! +qa || true
 run vim -esu ~/.vimrc +PlugUpdate +qa || true
 
-# Install or update oh-my-zsh
-if [[ -d ~/.oh-my-zsh ]]; then
-    run echo "Oh-my-zsh already installed, updating..."
-    run cd ~/.oh-my-zsh
-    run git reset --hard origin/master
-    run git pull
-    run cd -
-else
+# Install and/or update oh-my-zsh
+if [[ ! -d ~/.oh-my-zsh ]]; then
     run echo "Installing oh-my-zsh..."
     run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 fi
+run echo "Oh-my-zsh already installed, updating..."
+run cd ~/.oh-my-zsh
+run git reset --hard origin/master
+run git pull
+run cd -
 
 # Install or update fzf 
-if [[ -d ~/.fzf ]]; then
-    run echo "fzf already installed, updating..."
-    run cd ~/.fzf
-    run git reset --hard origin/master
-    run git pull
-    run cd -
-else
+if [[ ! -d ~/.fzf ]]; then
     run echo "Installing fzf..."
     run git clone https://github.com/junegunn/fzf.git ~/.fzf
 fi
+run echo "fzf already installed, updating..."
+run cd ~/.fzf
+run git reset --hard origin/master
+run git pull
+run cd -
 run ~/.fzf/install --all
