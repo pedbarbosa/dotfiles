@@ -10,15 +10,15 @@ fi
 
 if [[ -e /etc/redhat-release ]]; then
     DISTRO="redhat"
-    PACKAGES="gcc python-devel python-pip rsync sudo vim zsh"
+    PACKAGES="curl gcc python-devel python-pip rsync sudo vim zsh"
     RUN_COMMAND="yum install -y "
 elif [[ -e /etc/arch-release ]]; then
     DISTRO="arch"
-    PACKAGES="fzf gcc python-pip rsync sudo vim zsh"
+    PACKAGES="curl fzf gcc python-pip rsync sudo vim zsh"
     RUN_COMMAND="pacman -S --noconfirm --needed "
 elif [[ -e /etc/debian_version ]]; then
     DISTRO="debian"
-    PACKAGES="gcc python-dev python-pip rsync vim zsh"
+    PACKAGES="curl gcc python-dev python-pip rsync vim zsh"
     run $ELEVATE apt-get update
     RUN_COMMAND="apt-get install -y "
 else
