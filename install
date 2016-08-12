@@ -1,16 +1,17 @@
 #!/bin/bash
 verbose=false
 
-#Include functions
-source scripts/functions
-
+# Usage help
 while getopts ":hv" OPTION; do
     case $OPTION in
-        h) usage; exit 0 ;;
+        h) echo "Enabled options are '-h' for this message and '-v' for for verbose mode"; exit 0 ;;
         v) verbose=true ;;
     esac
 done
 shift $(( OPTIND - 1 ))
+
+#Include functions
+source scripts/functions
 
 # OS detection
 UNAME=$(uname -a | sed -E 's/ .*//')

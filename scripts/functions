@@ -1,9 +1,5 @@
 #!/bin/bash
 
-function usage {
-    echo "Enabled options are '-h' for this message and '-v' for for verbose mode"
-}
-
 function run () {
     if $verbose
     then
