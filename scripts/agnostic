@@ -65,6 +65,7 @@ fi
 if [[ ! -d ~/.fzf ]]; then
     run echo "Installing fzf..."
     run git clone https://github.com/junegunn/fzf.git ~/.fzf
+    run ~/.fzf/install --all
 else
     run echo "fzf already installed, updating..."
     run cd ~/.fzf
@@ -72,4 +73,3 @@ else
     run git pull
     run cd -
 fi
-run ~/.fzf/install --all
