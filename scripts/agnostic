@@ -55,10 +55,8 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
     run git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 else 
     run echo "Oh-my-zsh already installed, updating..."
-    run cd ~/.oh-my-zsh
-    run git reset --hard origin/master
-    run git pull
-    run cd -
+    run git -C ~/.oh-my-zsh reset --hard origin/master
+    run git -C ~/.oh-my-zsh pull
 fi
 
 # Install or update fzf 
@@ -68,8 +66,6 @@ if [[ ! -d ~/.fzf ]]; then
     run ~/.fzf/install --all
 else
     run echo "fzf already installed, updating..."
-    run cd ~/.fzf
-    run git reset --hard origin/master
-    run git pull
-    run cd -
+    run git -C ~/.fzf reset --hard origin/master
+    run git -C ~/.fzf pull
 fi
