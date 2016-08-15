@@ -18,7 +18,7 @@ elif [[ -e /etc/arch-release ]]; then
     RUN_COMMAND="pacman -S --noconfirm --needed "
 elif [[ -e /etc/debian_version ]]; then
     DISTRO="debian"
-    PACKAGES="curl gcc python-dev python-pip rsync ruby vim zsh"
+    PACKAGES="curl gcc python-dev python-pip rsync ruby ruby-dev vim zsh"
     run $ELEVATE apt-get update
     RUN_COMMAND="apt-get install -y "
 else
