@@ -33,13 +33,13 @@ colorscheme jellybeans
 set nocompatible   " Use Vim defaults instead of 100% vi compatibility
 set history=50     " keep 50 lines of command line history
 set number         " show line numbers
+set relativenumber " enable relative line numbers
 set cursorline     " highlight current line
 set showmatch      " Show matching brackets.
 set ruler          " show the cursor position all the time
-set modelines=1    " allow per-file vim configs
+set modelines=1     " allow per-file vim configs
 set lazyredraw     " redraw when needed. speeds up macros
 set backspace=indent,eol,start     " more powerful backspacing
-set relativenumber " enable relative line numbers
 filetype plugin indent on
 
 " Suffixes that get lower priority when doing tab completion for filenames.
