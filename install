@@ -66,7 +66,7 @@ fi
 # Update .zshrc according to environment
 # TODO: Need to rearrange this function's location
 if [[ $UNAME == 'Darwin' ]]; then
-    sed -i -e "s/^plugins=.*/plugins=\(aws brew docker docker-compose gitfast knife osx pip sudo\)/g" ~/.zshrc
+    sed -i -e "s/^plugins=.*/plugins=\(aws brew cp fabric gitfast knife osx pip ruby rvm sudo\)/g" ~/.zshrc
 elif [[ -e /etc/arch-release ]]; then
     sed -i -e "s/^plugins=.*/plugins=\(archlinux docker docker-compose gitfast pip sudo\)/g" ~/.zshrc
 else

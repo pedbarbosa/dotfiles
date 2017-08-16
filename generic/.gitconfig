@@ -3,3 +3,5 @@
 [user]
 	name = Pedro Barbosa
 	email = pedbarbosa@users.noreply.github.com
+[core]
+	editor = /usr/local/bin/vim
