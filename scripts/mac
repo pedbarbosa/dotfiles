@@ -38,12 +38,10 @@ do
 done
 
 # Install homebrew meld
-if [[ ! -e "/usr/local/Cellar/meld" ]]
+if [[ ! -e "/usr/local/Caskroom/meld" ]]
 then
     run echo "Installing meld..."
-    run brew install Caskroom/cask/tcl
-    run brew install Caskroom/cask/xquartz
-    run brew install Caskroom/cask/meld
+    run brew cask install meld
 else
     run echo "Meld has already been installed"
 fi
