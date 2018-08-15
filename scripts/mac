@@ -8,15 +8,6 @@ then
     exit 1
 fi
 
-# Check if locate database exists
-if [[ ! -e /var/db/locate.database ]]
-then
-    echo "Requesting user password to build locate database..."
-    run sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-else
-    run echo "Locate database has already been set up"
-fi
-
 # Check if homebrew is already installed
 if [[ ! -e /usr/local/bin/brew ]]
 then
@@ -27,7 +18,7 @@ else
 fi
 
 # Install homebrew bottles
-brew_bottles=( aria2 awscli cmake ctags dos2unix git gnupg jq libxml2 ncdu nmap openssl pv python3 syncthing unrar vim wakeonlan watch wget zsh zsh-completions )
+brew_bottles=( aria2 awscli cmake ctags dos2unix git gnupg jq libxml2 maven ncdu nmap openssl pv python3 rbenv syncthing unrar vim wakeonlan watch wget zsh zsh-completions )
 for i in "${brew_bottles[@]}"
 do
     if [[ ! -e "/usr/local/Cellar/$i" ]]
@@ -51,7 +42,3 @@ if [[ ! -d /Applications/iTerm.app ]]
 then
     echo "Couldn't find iTerm 2, please install."
 fi
-
-# Disable Play/Pause button from launching iTunes
-#run launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
-
