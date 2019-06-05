@@ -37,7 +37,7 @@ zsh_timer_01_ohmyzsh=$SECONDS
 
 # Initialise zsh completion and add 'zsh-completions' if available
 if [[ -x /usr/local/share/zsh-completions ]]; then
-    fpath=(/usr/local/share/zsh-completions $fpath)
+    fpath=(/usr/local/share/zsh-completions ${fpath})
 fi
 compinit
 zsh_timer_02_compinit=$SECONDS
@@ -47,12 +47,16 @@ source ~/.fzf.zsh
 zsh_timer_03_fzf=$SECONDS
 
 # AWS ECS Functions
-source /Storage/git/docker-ecs/ecs_functions.sh
-zsh_timer_04_dockerecs=$SECONDS
+if [[ -f ~/git/docker-ecs/ecs_functions.sh ]]; then
+    source ~/git/docker-ecs/ecs_functions.sh
+    zsh_timer_04_dockerecs=$SECONDS
+fi
 
 # iTerm integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-zsh_timer_05_iterm=$SECONDS
+if [[ -f ~/.iterm2_shell_integration.zsh ]]; then
+    source ~/.iterm2_shell_integration.zsh
+    zsh_timer_05_iterm=$SECONDS
+fi
 
 # Set up rbenv
 export RBENV_ROOT=/usr/local/var/rbenv
